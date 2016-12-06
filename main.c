@@ -1,11 +1,22 @@
-/* main file of project */
-#include "globals.h"
-#include "transaction_manager_structures.h"
-#include "site.h"
+// main file of project  
+/******************* AUTHORS*******************************/
+//                Aditya Poduval - amp965
+//                Adheip Nagarajan - an2426
+/********************************************************/                  
+#include "operations.h"
+#include "transaction_manager.h"
+#include "site_data.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
+int checkFileExists(char *file_name);
+
+/****************** Main function:*********************************
+ * accepts input file 
+ * Parses the file to store the operations
+ * Calls transaction manager to perform the operation 
+****************************************************************/
 int main(int argc, char *argv[]) 
 {
   char inputfile[100], log_desc[1000] ;
@@ -34,45 +45,52 @@ int main(int argc, char *argv[])
   else 
     fclose(fp) ;
   
-  /* Calling function to initialize Transaction Manager  */
-  initTransMngr() ;
+  // Calling function to initialize Transaction Manager 
+  initTransMngr();
 
-  /* Calling function to initialize data on the sites */
-  initSiteData() ;
+  // Calling function to initialize data on the sites 
+  initSiteData(); 
 
-  ret_sts = parseInput(inputfile) ; /* Calling function to parse Input File */
+  ret_sts = parseInputFile(inputfile) ; // Calling function to parse Input File 
   if(ret_sts == -1) 
   {
    printf("main: could not parse input file - %s. Returning...\n", inputfile) ;
    return  0 ;
   }
   
-  /* Calling function to start transaction manager to perform each operation present in the input file */
-  startTransMngr() ;
+  // Calling function to start transaction manager to perform each operation present in the input file 
+  startTrxMngr() ; 
 
   sprintf(log_desc, "main: exiting Transaction Manager \n") ;
   appendLog(log_desc) ;
   return  0 ;
 }
 
-/* This function checks if the given exists or not and returns err if the file is empty */
+// This function checks if the given exists or not and returns err if the file is empty 
 int checkFileExists(char *file_name) 
 {
   int status;
   struct  stat sb;
   status = lstat(file_name, &sb) ;
 
-  if (status == -1) {
+  if (status == -1) 
+  {
    printf("lstat function returned with error for file %s: %s\n", file_name, (char *)strerror(errno)) ;
    return -1 ;
   }
-  if(sb.st_size == 0){
+  if(sb.st_size == 0)
+  {
    printf("File is empty, returning error");
    return -1 ;
   }
   return 0 ;
 }
 
+
+/****************appendLog function:*********************
+ * Opens output log file 
+ * appends the output to the log
+ *******************************************************/
 void appendLog(char * log_desc) 
 {
    FILE *fp = fopen("output.log", "a") ;
