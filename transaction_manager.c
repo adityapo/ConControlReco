@@ -965,7 +965,6 @@ void startTrxMngr()
             {
               if(temp_opr->site_opn_sts[site_num] == OPERATION_IGNORE || temp_opr->site_opn_sts[site_num] == OPERATION_COMPLETE)
               {
-                printf("\n Inside else condition for write on even variable inside OPERATION_IGNORE");
                 continue;
               }
         
@@ -973,9 +972,7 @@ void startTrxMngr()
               {
                 if(siteInfo[site_num].site_up == 0) 
                 {
-                  printf("\n site %d is down, write cannot be done",site_num);
                   temp_opr->site_opn_sts[site_num] = OPERATION_IGNORE;
-                  printf("\n temp_opr->write_val = %d",temp_opr->write_val);
                   continue;
                 }
                 else
@@ -999,10 +996,8 @@ void startTrxMngr()
                   }
                   else if(temp_opr->site_opn_sts[site_num] == OPERATION_COMPLETE)
                   {
-                    printf("\n Inside else if condition for OPERATION_COMPLETE, write_val = %d",temp_opr->write_val);
                     if(write_done == 0)
                     {
-                         printf("\n Inside write done == 0");
                          write_done = 1;
                     }
 
@@ -1096,7 +1091,6 @@ void startTrxMngr()
                 if(siteInfo[siteNo].up_ts > T[trx_id].sites_accessed[siteNo].tick_first_access)
                 {
                   commit_ind = 0;
-                  printf("\n Transaction %d aborted as site failed after first access\n",trx_id);
                   abortTrx(temp_opr);
                   T[trx_id].trxStatus = TRX_ABORTED;
                   T[trx_id].current_opn = NULL ;
@@ -1110,7 +1104,6 @@ void startTrxMngr()
             {
               if(T[trx_id].sites_accessed[siteNo].tick_first_access != -1 && siteInfo[siteNo].site_up == 1)
               {
-                printf("\n perform end operation on site %d", siteNo);
                 perfOpn(T[trx_id].current_opn,siteNo);
               }
             }
@@ -1129,7 +1122,6 @@ void startTrxMngr()
         if(T[trx_id].inactiveTickNo == -1) 
         {
           T[trx_id].inactiveTickNo = tick_no;
-          printf("\n Transaction %d is waiting for input operation\n", trx_id);
         }
         else 
         {
