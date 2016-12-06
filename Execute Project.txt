@@ -1,0 +1,13 @@
+To Compile
+Run the following command:
+chmod +x compile_file
+./compile_file
+
+An executable concontrolreco will be created
+
+To Run
+To run the code, enter the following command on terminal:
+./concontrolreco <Name of the file>  // Ensure that file is in same folder where this is run, else provide file path along with file name
+
+Log file name convention
+Output will be generated on the terminal and will be logged as well in output.log
